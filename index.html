@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trident Group — CSR Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══════════════ LEFT SIDEBAR ══════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <path d="M17 3 L17 31" stroke="#F5A623" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M10 9 L24 9" stroke="#F5A623" stroke-width="2" stroke-linecap="round"/>
+          <path d="M7 15 L27 15" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- wheat left -->
+          <path d="M10 9 Q6 11 7 15" stroke="#F5A623" stroke-width="1.4" fill="none"/>
+          <path d="M10 9 Q8 7 7 9" stroke="#F5A623" stroke-width="1.2" fill="none"/>
+          <!-- wheat right -->
+          <path d="M24 9 Q28 11 27 15" stroke="#F5A623" stroke-width="1.4" fill="none"/>
+          <path d="M24 9 Q26 7 27 9" stroke="#F5A623" stroke-width="1.2" fill="none"/>
+          <circle cx="17" cy="5" r="2" fill="#F5A623"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-brand">TRIDENT GROUP™</span>
+        <span class="logo-sub">CSR Dashboard</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="#" id="nav-dashboard">
+        <i class="fa-solid fa-grid-2"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-initiatives">
+        <i class="fa-solid fa-seedling"></i>
+        <span>Initiatives</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-map">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Map View</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-feed">
+        <i class="fa-solid fa-rss"></i>
+        <span>Activity Feed</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-reports">
+        <i class="fa-solid fa-chart-bar"></i>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-beneficiaries">
+        <i class="fa-solid fa-users"></i>
+        <span>Beneficiaries</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-docs">
+        <i class="fa-solid fa-folder-open"></i>
+        <span>Documents</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-team">
+        <i class="fa-solid fa-user-group"></i>
+        <span>Team Members</span>
+      </a>
+      <a class="nav-item" href="#" id="nav-settings">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-vision">
+      <p class="vision-label">CSR Vision</p>
+      <p class="vision-text">Building sustainable communities and empowering lives for a better tomorrow.</p>
+      <div class="vision-img-wrap">
+        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&q=80" alt="Green initiative" class="vision-img">
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════ MAIN CONTENT ══════════════ -->
+  <div class="main-wrap">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <h1 class="welcome-title">Welcome back, Team CSR! 👋</h1>
+        <p class="welcome-sub">Here's an overview of our impact and progress.</p>
+      </div>
+      <div class="header-right">
+        <button class="notif-btn" id="notifBtn">
+          <i class="fa-regular fa-bell"></i>
+          <span class="notif-badge">3</span>
+        </button>
+        <div class="user-chip">
+          <div class="user-avatar-wrap">
+            <img src="https://i.pravatar.cc/40?img=47" alt="Ananya Sharma" class="user-avatar-img">
+          </div>
+          <div class="user-chip-info">
+            <span class="user-chip-name">Ananya Sharma</span>
+            <span class="user-chip-role">CSR Manager</span>
+          </div>
+          <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;color:#94a3b8;margin-left:4px;"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Body -->
+    <div class="content-body">
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon-wrap green">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Total Initiatives</p>
+            <p class="stat-value" id="stat-initiatives">48</p>
+            <p class="stat-sub">Across 12 Focus Areas</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap blue">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Villages Covered</p>
+            <p class="stat-value" id="stat-villages">126</p>
+            <p class="stat-sub">Across 5 States</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap orange">
+            <i class="fa-solid fa-person-rays"></i>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">People Impacted</p>
+            <p class="stat-value" id="stat-people">2.45 L+</p>
+            <p class="stat-sub">Till Date</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-progress-wrap">
+            <svg class="ring-svg" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="17" fill="none" stroke="#e2e8f0" stroke-width="3.5"/>
+              <circle cx="20" cy="20" r="17" fill="none" stroke="#10b981" stroke-width="3.5"
+                stroke-dasharray="107 107" stroke-dashoffset="29" stroke-linecap="round"
+                transform="rotate(-90 20 20)"/>
+            </svg>
+            <span class="ring-pct">72%</span>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Overall Progress</p>
+            <p class="stat-value" style="color:#10b981">72%</p>
+            <p class="stat-sub">Average Completion</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-column layout -->
+      <div class="content-cols">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-left">
+
+          <!-- Impact Map -->
+          <div class="section-card map-section-card">
+            <div class="section-top">
+              <div>
+                <h2 class="section-heading">Impact Map</h2>
+                <p class="section-desc">Visual overview of our initiatives across locations</p>
+              </div>
+              <div class="map-controls">
+                <select class="filter-select" id="stateFilter">
+                  <option>All States</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                </select>
+                <select class="filter-select" id="focusFilter">
+                  <option>All Focus Areas</option>
+                  <option>Education</option>
+                  <option>Healthcare</option>
+                  <option>Environment</option>
+                  <option>Community Development</option>
+                </select>
+                <button class="filter-btn">
+                  <i class="fa-solid fa-sliders"></i> Filters
+                </button>
+              </div>
+            </div>
+            <div id="map"></div>
+            <div class="map-legend-bar">
+              <span class="leg-item"><span class="leg-dot" style="background:#3b82f6"></span>Education</span>
+              <span class="leg-item"><span class="leg-dot" style="background:#ef4444"></span>Healthcare</span>
+              <span class="leg-item"><span class="leg-dot" style="background:#10b981"></span>Environment</span>
+              <span class="leg-item"><span class="leg-dot" style="background:#8b5cf6"></span>Community Development</span>
+              <span class="leg-item"><span class="leg-dot" style="background:#f59e0b"></span>Rural Development</span>
+            </div>
+          </div>
+
+          <!-- Ongoing Initiatives -->
+          <div class="section-card">
+            <div class="section-top" style="margin-bottom:16px;">
+              <h2 class="section-heading">Ongoing Initiatives</h2>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="initiatives-grid" id="initiativesGrid">
+              <!-- filled by JS -->
+            </div>
+          </div>
+
+          <!-- Impact at a Glance -->
+          <div class="section-card impact-glance">
+            <h2 class="section-heading" style="margin-bottom:18px;">Impact at a Glance</h2>
+            <div class="glance-row">
+              <div class="glance-item">
+                <div class="glance-icon" style="color:#ef4444;"><i class="fa-solid fa-heart"></i></div>
+                <p class="glance-num">1.2 L+</p>
+                <p class="glance-label">Children Educated</p>
+              </div>
+              <div class="glance-item">
+                <div class="glance-icon" style="color:#3b82f6;"><i class="fa-solid fa-user-nurse"></i></div>
+                <p class="glance-num">85K+</p>
+                <p class="glance-label">Health Beneficiaries</p>
+              </div>
+              <div class="glance-item">
+                <div class="glance-icon" style="color:#10b981;"><i class="fa-solid fa-tree"></i></div>
+                <p class="glance-num">1.8 L+</p>
+                <p class="glance-label">Trees Planted</p>
+              </div>
+              <div class="glance-item">
+                <div class="glance-icon" style="color:#f59e0b;"><i class="fa-solid fa-house"></i></div>
+                <p class="glance-num">95+</p>
+                <p class="glance-label">Villages Developed</p>
+              </div>
+              <div class="glance-item">
+                <div class="glance-icon" style="color:#8b5cf6;"><i class="fa-solid fa-hands-holding-circle"></i></div>
+                <p class="glance-num">320+</p>
+                <p class="glance-label">Volunteers Engaged</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /col-left -->
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-right">
+
+          <!-- Quick Actions -->
+          <div class="section-card">
+            <h3 class="section-heading" style="margin-bottom:16px;">Quick Actions</h3>
+            <div class="quick-grid">
+              <button class="quick-btn" id="uploadPhotoBtn">
+                <div class="quick-icon teal"><i class="fa-solid fa-camera"></i></div>
+                <span>Upload Photo</span>
+              </button>
+              <button class="quick-btn">
+                <div class="quick-icon purple"><i class="fa-solid fa-plus"></i></div>
+                <span>Add Activity</span>
+              </button>
+              <button class="quick-btn">
+                <div class="quick-icon green"><i class="fa-solid fa-seedling"></i></div>
+                <span>New Initiative</span>
+              </button>
+              <button class="quick-btn">
+                <div class="quick-icon orange"><i class="fa-solid fa-file-lines"></i></div>
+                <span>Generate Report</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="section-card">
+            <div class="section-top" style="margin-bottom:14px;">
+              <h3 class="section-heading">Recent Activity</h3>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="activity-list" id="activityList">
+              <div class="act-item">
+                <div class="act-icon green"><i class="fa-solid fa-tree"></i></div>
+                <div class="act-info">
+                  <p class="act-name">Tree Plantation Drive</p>
+                  <p class="act-loc">Budhni, MP</p>
+                </div>
+                <span class="act-time">2h ago</span>
+              </div>
+              <div class="act-item">
+                <div class="act-icon red"><i class="fa-solid fa-kit-medical"></i></div>
+                <div class="act-info">
+                  <p class="act-name">Health Check-up Camp</p>
+                  <p class="act-loc">Neemuch, MP</p>
+                </div>
+                <span class="act-time">5h ago</span>
+              </div>
+              <div class="act-item">
+                <div class="act-icon blue"><i class="fa-solid fa-droplet"></i></div>
+                <div class="act-info">
+                  <p class="act-name">Clean Water Initiative</p>
+                  <p class="act-loc">Ratlam, MP</p>
+                </div>
+                <span class="act-time">1d ago</span>
+              </div>
+              <div class="act-item">
+                <div class="act-icon purple"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="act-info">
+                  <p class="act-name">Smart Classroom Setup</p>
+                  <p class="act-loc">Mandsaur, MP</p>
+                </div>
+                <span class="act-time">2d ago</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Members -->
+          <div class="section-card">
+            <div class="section-top" style="margin-bottom:14px;">
+              <h3 class="section-heading">Team Members</h3>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="team-list">
+              <div class="team-item">
+                <img src="https://i.pravatar.cc/36?img=47" class="team-avatar" alt="Ananya Sharma">
+                <div class="team-info">
+                  <p class="team-name">Ananya Sharma</p>
+                  <p class="team-role">CSR Manager</p>
+                </div>
+                <span class="status-dot online"></span>
+              </div>
+              <div class="team-item">
+                <img src="https://i.pravatar.cc/36?img=12" class="team-avatar" alt="Rohit Verma">
+                <div class="team-info">
+                  <p class="team-name">Rohit Verma</p>
+                  <p class="team-role">Field Coordinator</p>
+                </div>
+                <span class="status-dot online"></span>
+              </div>
+              <div class="team-item">
+                <img src="https://i.pravatar.cc/36?img=25" class="team-avatar" alt="Neha Patel">
+                <div class="team-info">
+                  <p class="team-name">Neha Patel</p>
+                  <p class="team-role">CSR Executive</p>
+                </div>
+                <span class="status-dot away"></span>
+              </div>
+              <div class="team-item">
+                <img src="https://i.pravatar.cc/36?img=51" class="team-avatar" alt="Arjun Singh">
+                <div class="team-info">
+                  <p class="team-name">Arjun Singh</p>
+                  <p class="team-role">Data Analyst</p>
+                </div>
+                <span class="status-dot online"></span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /col-right -->
+      </div><!-- /content-cols -->
+    </div><!-- /content-body -->
+  </div><!-- /main-wrap -->
+</div><!-- /app -->
+
+<!-- Upload Photo Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-wrap"><i class="fa-solid fa-camera"></i></div>
+        <h3>Upload Photo</h3>
+      </div>
+      <button class="modal-close-btn" id="closeUploadModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+        <img class="upload-preview-img" id="previewImg" style="display:none">
+        <div class="upload-placeholder" id="uploadPlaceholder">
+          <div class="upload-icon-ring"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <p class="upload-hint">Drag & drop or <span class="upload-link">browse</span></p>
+          <small>JPG, PNG, WEBP — max 10MB</small>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa-solid fa-map-pin"></i> Village / Location</label>
+          <input type="text" placeholder="e.g. Budhni, Sehore">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-tag"></i> Initiative Category</label>
+          <select>
+            <option>Education</option>
+            <option>Healthcare</option>
+            <option>Environment</option>
+            <option>Community Development</option>
+            <option>Rural Development</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-seedling"></i> Linked Initiative</label>
+        <select id="linkedInitiative">
+          <option>Smart Classroom Initiative — Mandsaur</option>
+          <option>Mobile Health Check-up Camp — Neemuch</option>
+          <option>Tree Plantation Drive — Budhni</option>
+          <option>Women Empowerment Program — Barnala</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-note-sticky"></i> Caption / Notes</label>
+        <input type="text" placeholder="Describe what's happening in this photo...">
+      </div>
+      <button class="submit-upload-btn" id="submitUploadBtn">
+        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg"></span></div>
+
+<script src="app.js"></script>
+</body>
+</html>
