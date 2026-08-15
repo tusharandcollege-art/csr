@@ -1,6 +1,78 @@
 // ════════════════════════════════════════════════════════════════
 // TRIDENT GROUP — CSR DASHBOARD FULLY FUNCTIONAL APP LOGIC
+// SUPABASE INTEGRATION FOR PROJECT: cilfwcgahowcukmwgyvk
 // ════════════════════════════════════════════════════════════════
+
+const SUPABASE_PROJECT_URL = "https://cilfwcgahowcukmwgyvk.supabase.co";
+let supabaseClient = null;
+
+// Initialize Supabase Client if Anon Key is present
+function initSupabase() {
+  const anonKey = localStorage.getItem('trident_supabase_key');
+  if (anonKey && window.supabase) {
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      syncFromSupabase();
+      subscribeRealtime();
+      updateSupabaseBadge(true);
+    } catch (err) {
+      console.error('Supabase Init Error:', err);
+      updateSupabaseBadge(false);
+    }
+  } else {
+    updateSupabaseBadge(false);
+  }
+}
+
+function updateSupabaseBadge(connected) {
+  const badge = document.getElementById('supaBadge');
+  if (badge) {
+    if (connected) {
+      badge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:6px;"></span>Supabase Connected`;
+      badge.style.color = "#10b981";
+    } else {
+      badge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:6px;"></span>Connect Supabase DB`;
+      badge.style.color = "#f59e0b";
+    }
+  }
+}
+
+// Sync from Supabase tables
+async function syncFromSupabase() {
+  if (!supabaseClient) return;
+
+  try {
+    const { data: initData, error: initErr } = await supabaseClient.from('initiatives').select('*');
+    if (!initErr && initData && initData.length > 0) {
+      initiativesStore = initData;
+      localStorage.setItem('trident_initiatives', JSON.stringify(initiativesStore));
+      renderInitiatives(initiativesStore);
+      renderMapMarkers(initiativesStore);
+      updateStats();
+    }
+
+    const { data: actData, error: actErr } = await supabaseClient.from('activities').select('*').order('created_at', { ascending: false });
+    if (!actErr && actData && actData.length > 0) {
+      activitiesStore = actData;
+      localStorage.setItem('trident_activities', JSON.stringify(activitiesStore));
+      renderActivities(activitiesStore);
+    }
+  } catch (err) {
+    console.log('Supabase sync fallback to local storage:', err);
+  }
+}
+
+// Real-time listener across devices
+function subscribeRealtime() {
+  if (!supabaseClient) return;
+  
+  supabaseClient
+    .channel('schema-db-changes')
+    .on('postgres_changes', { event: '*', schema: 'public' }, () => {
+      syncFromSupabase();
+    })
+    .subscribe();
+}
 
 // 1. DATA STORES (WITH LOCALSTORAGE PERSISTENCE)
 const DEFAULT_INITIATIVES = [
@@ -105,6 +177,7 @@ let markersGroup = [];
 
 // Initialize Dashboard
 document.addEventListener('DOMContentLoaded', () => {
+  initSupabase();
   renderInitiatives(initiativesStore);
   renderActivities(activitiesStore);
   initMap(initiativesStore);
@@ -552,6 +625,21 @@ function setupFormHandlers() {
       closeAllModals();
     };
   }
+
+  // Supabase Form Submit
+  const supaForm = document.getElementById('supabaseForm');
+  if (supaForm) {
+    supaForm.onsubmit = (e) => {
+      e.preventDefault();
+      const key = document.getElementById('supaKey').value.trim();
+      if (key) {
+        localStorage.setItem('trident_supabase_key', key);
+        initSupabase();
+        closeAllModals();
+        showToast('Supabase project cilfwcgahowcukmwgyvk connected!');
+      }
+    };
+  }
 }
 
 // 8. REPORT GENERATOR (CSV FILE DOWNLOAD)
@@ -579,6 +667,16 @@ function setupHeaderDropdowns() {
   if (notifBtn) {
     notifBtn.onclick = () => {
       showToast('Notifications: 3 field photo uploads pending approval');
+    };
+  }
+
+  const supaBadgeBtn = document.getElementById('supaBadgeBtn');
+  if (supaBadgeBtn) {
+    supaBadgeBtn.onclick = () => {
+      const savedKey = localStorage.getItem('trident_supabase_key') || '';
+      const supaKeyInput = document.getElementById('supaKey');
+      if (supaKeyInput) supaKeyInput.value = savedKey;
+      openModal('supabaseModal');
     };
   }
 }
