@@ -15,25 +15,8 @@ function initSupabase() {
       supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
       syncFromSupabase();
       subscribeRealtime();
-      updateSupabaseBadge(true);
     } catch (err) {
       console.error('Supabase Init Error:', err);
-      updateSupabaseBadge(false);
-    }
-  } else {
-    updateSupabaseBadge(false);
-  }
-}
-
-function updateSupabaseBadge(connected) {
-  const badge = document.getElementById('supaBadge');
-  if (badge) {
-    if (connected) {
-      badge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:6px;"></span>Supabase Connected`;
-      badge.style.color = "#10b981";
-    } else {
-      badge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:6px;"></span>Connect Supabase DB`;
-      badge.style.color = "#f59e0b";
     }
   }
 }
