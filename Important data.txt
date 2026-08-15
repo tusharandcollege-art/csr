@@ -1,2 +1,4 @@
-Tushar123#123
-https://supabase.com/dashboard/project/cilfwcgahowcukmwgyvk
+Superbase password : Tushar123#123
+superbase URL : https://supabase.com/dashboard/project/cilfwcgahowcukmwgyvk
+username : tusharandcollege-art
+e-mail : tusharandcollege@gmail.com

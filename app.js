@@ -4,11 +4,12 @@
 // ════════════════════════════════════════════════════════════════
 
 const SUPABASE_PROJECT_URL = "https://cilfwcgahowcukmwgyvk.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_MsjjfCYBx2735HePjEJpcg_tEfWwmIx";
 let supabaseClient = null;
 
-// Initialize Supabase Client if Anon Key is present
+// Initialize Supabase Client if Key is present
 function initSupabase() {
-  const anonKey = localStorage.getItem('trident_supabase_key');
+  const anonKey = localStorage.getItem('trident_supabase_key') || DEFAULT_SUPABASE_KEY;
   if (anonKey && window.supabase) {
     try {
       supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
@@ -518,22 +519,31 @@ function setupFormHandlers() {
   // Photo Upload Submit
   const photoForm = document.getElementById('uploadPhotoForm');
   if (photoForm) {
-    photoForm.onsubmit = (e) => {
+    photoForm.onsubmit = async (e) => {
       e.preventDefault();
       const loc = document.getElementById('photoLocation').value;
       const caption = document.getElementById('photoCaption').value;
 
-      // Add to activities
-      activitiesStore.unshift({
+      const newAct = {
         id: Date.now(),
         title: caption,
         loc: loc,
         icon: 'fa-camera',
         iconClass: 'blue',
         time: 'Just now'
-      });
+      };
 
+      activitiesStore.unshift(newAct);
       localStorage.setItem('trident_activities', JSON.stringify(activitiesStore));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('activities').insert([newAct]);
+        } catch (err) {
+          console.log('Supabase activity error:', err);
+        }
+      }
+
       renderActivities(activitiesStore);
       closeAllModals();
       showToast('Photo uploaded successfully! Added to activity feed.');
@@ -543,21 +553,31 @@ function setupFormHandlers() {
   // Add Activity Submit
   const actForm = document.getElementById('addActivityForm');
   if (actForm) {
-    actForm.onsubmit = (e) => {
+    actForm.onsubmit = async (e) => {
       e.preventDefault();
       const title = document.getElementById('actTitle').value;
       const loc = document.getElementById('actLoc').value;
 
-      activitiesStore.unshift({
+      const newAct = {
         id: Date.now(),
         title: title,
         loc: loc,
         icon: 'fa-clipboard-check',
         iconClass: 'purple',
         time: 'Just now'
-      });
+      };
 
+      activitiesStore.unshift(newAct);
       localStorage.setItem('trident_activities', JSON.stringify(activitiesStore));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('activities').insert([newAct]);
+        } catch (err) {
+          console.log('Supabase activity error:', err);
+        }
+      }
+
       renderActivities(activitiesStore);
       closeAllModals();
       showToast('New activity logged successfully!');
@@ -567,7 +587,7 @@ function setupFormHandlers() {
   // New Initiative Submit
   const initForm = document.getElementById('newInitiativeForm');
   if (initForm) {
-    initForm.onsubmit = (e) => {
+    initForm.onsubmit = async (e) => {
       e.preventDefault();
       const name = document.getElementById('initName').value;
       const village = document.getElementById('initVillage').value;
@@ -606,6 +626,14 @@ function setupFormHandlers() {
 
       initiativesStore.unshift(newObj);
       localStorage.setItem('trident_initiatives', JSON.stringify(initiativesStore));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('initiatives').insert([newObj]);
+        } catch (err) {
+          console.log('Supabase initiative error:', err);
+        }
+      }
 
       renderInitiatives(initiativesStore);
       renderMapMarkers(initiativesStore);
