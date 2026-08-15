@@ -360,50 +360,225 @@
         <div class="modal-icon-wrap"><i class="fa-solid fa-camera"></i></div>
         <h3>Upload Photo</h3>
       </div>
-      <button class="modal-close-btn" id="closeUploadModal"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close-btn" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
-      <div class="upload-zone" id="uploadZone">
-        <input type="file" id="fileInput" accept="image/*" style="display:none">
-        <img class="upload-preview-img" id="previewImg" style="display:none">
-        <div class="upload-placeholder" id="uploadPlaceholder">
-          <div class="upload-icon-ring"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-          <p class="upload-hint">Drag & drop or <span class="upload-link">browse</span></p>
-          <small>JPG, PNG, WEBP — max 10MB</small>
+      <form id="uploadPhotoForm">
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" accept="image/*" style="display:none">
+          <img class="upload-preview-img" id="previewImg" style="display:none">
+          <div class="upload-placeholder" id="uploadPlaceholder">
+            <div class="upload-icon-ring"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <p class="upload-hint">Drag & drop or <span class="upload-link">browse</span></p>
+            <small>JPG, PNG, WEBP — max 10MB</small>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label><i class="fa-solid fa-map-pin"></i> Village / Location</label>
-          <input type="text" placeholder="e.g. Budhni, Sehore">
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-map-pin"></i> Village / Location</label>
+            <input type="text" id="photoLocation" placeholder="e.g. Budhni, MP" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-tag"></i> Initiative Category</label>
+            <select id="photoCategory">
+              <option value="Education">Education</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Environment">Environment</option>
+              <option value="Community Development">Community Development</option>
+              <option value="Rural Development">Rural Development</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
-          <label><i class="fa-solid fa-tag"></i> Initiative Category</label>
-          <select>
-            <option>Education</option>
-            <option>Healthcare</option>
-            <option>Environment</option>
-            <option>Community Development</option>
-            <option>Rural Development</option>
+          <label><i class="fa-solid fa-seedling"></i> Linked Initiative</label>
+          <select id="linkedInitiative">
+            <option>Smart Classroom Initiative — Mandsaur</option>
+            <option>Mobile Health Check-up Camp — Neemuch</option>
+            <option>Tree Plantation Drive — Budhni</option>
+            <option>Women Empowerment Program — Ratlam</option>
           </select>
         </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-note-sticky"></i> Caption / Notes</label>
+          <input type="text" id="photoCaption" placeholder="Describe what's happening in this photo..." required>
+        </div>
+        <button type="submit" class="submit-upload-btn">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Submit Photo
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add Activity Modal -->
+<div class="modal-overlay" id="addActivityModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-wrap" style="background:#f5f3ff;color:#8b5cf6;"><i class="fa-solid fa-plus"></i></div>
+        <h3>Add Field Activity</h3>
       </div>
-      <div class="form-group">
-        <label><i class="fa-solid fa-seedling"></i> Linked Initiative</label>
-        <select id="linkedInitiative">
-          <option>Smart Classroom Initiative — Mandsaur</option>
-          <option>Mobile Health Check-up Camp — Neemuch</option>
-          <option>Tree Plantation Drive — Budhni</option>
-          <option>Women Empowerment Program — Barnala</option>
-        </select>
+      <button class="modal-close-btn" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="addActivityForm">
+        <div class="form-group">
+          <label><i class="fa-solid fa-pen"></i> Activity Title</label>
+          <input type="text" id="actTitle" placeholder="e.g. Solar Street Light Installation" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-map-location"></i> Location (Village, State)</label>
+            <input type="text" id="actLoc" placeholder="e.g. Obaidullaganj, MP" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-tag"></i> Focus Area</label>
+            <select id="actCategory">
+              <option value="Environment">Environment</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Community Development">Community Development</option>
+              <option value="Rural Development">Rural Development</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-align-left"></i> Activity Details / Summary</label>
+          <input type="text" id="actDesc" placeholder="Briefly describe the field action taken..." required>
+        </div>
+        <button type="submit" class="submit-upload-btn" style="background:#8b5cf6;">
+          <i class="fa-solid fa-check"></i> Add Activity Log
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- New Initiative Modal -->
+<div class="modal-overlay" id="newInitiativeModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-wrap" style="background:#ecfdf5;color:#059669;"><i class="fa-solid fa-seedling"></i></div>
+        <h3>Launch New Initiative</h3>
       </div>
-      <div class="form-group">
-        <label><i class="fa-solid fa-note-sticky"></i> Caption / Notes</label>
-        <input type="text" placeholder="Describe what's happening in this photo...">
+      <button class="modal-close-btn" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="newInitiativeForm">
+        <div class="form-group">
+          <label><i class="fa-solid fa-heading"></i> Initiative Name</label>
+          <input type="text" id="initName" placeholder="e.g. Digital Literacy Center" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-house-user"></i> Village & District</label>
+            <input type="text" id="initVillage" placeholder="e.g. Nasrullaganj, Sehore" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-map"></i> State</label>
+            <select id="initState">
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Punjab">Punjab</option>
+              <option value="Rajasthan">Rajasthan</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-layer-group"></i> Category</label>
+            <select id="initCategory">
+              <option value="Education">Education</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Environment">Environment</option>
+              <option value="Community Development">Community Development</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-chart-line"></i> Initial Progress (%)</label>
+            <input type="number" id="initProg" min="0" max="100" value="25" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-location-crosshairs"></i> Latitude</label>
+            <input type="number" step="0.0001" id="initLat" value="22.6850" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-location-crosshairs"></i> Longitude</label>
+            <input type="number" step="0.0001" id="initLng" value="77.0600" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-image"></i> Photo Image URL</label>
+          <input type="url" id="initImg" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&q=80">
+        </div>
+        <button type="submit" class="submit-upload-btn" style="background:#059669;">
+          <i class="fa-solid fa-paper-plane"></i> Launch Initiative
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Generate Report Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon-wrap" style="background:#eff6ff;color:#3b82f6;"><i class="fa-solid fa-file-arrow-down"></i></div>
+        <h3>Generate CSR Impact Report</h3>
       </div>
-      <button class="submit-upload-btn" id="submitUploadBtn">
-        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo
-      </button>
+      <button class="modal-close-btn" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="reportForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fa-solid fa-calendar"></i> Timeframe</label>
+            <select id="reportTimeframe">
+              <option>Current Financial Year (FY 2026-27)</option>
+              <option>Q1 FY 2026-27</option>
+              <option>Last 12 Months</option>
+              <option>All Time</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-file-export"></i> Format</label>
+            <select id="reportFormat">
+              <option value="CSV">CSV Data Spreadsheet</option>
+              <option value="PDF">PDF Summary Executive</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-filter"></i> Include Regions</label>
+          <select id="reportRegion">
+            <option>All Operations (MP, Punjab, Rajasthan)</option>
+            <option>Madhya Pradesh Focus (Budhni, Mandsaur, Neemuch)</option>
+            <option>Punjab Operations (Barnala, Sangrur)</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-upload-btn" style="background:#3b82f6;">
+          <i class="fa-solid fa-download"></i> Download Report Now
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Initiative Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box modal-large">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <span class="popup-badge" id="detailCategoryBadge">Education</span>
+        <h3 id="detailTitle">Initiative Name</h3>
+      </div>
+      <button class="modal-close-btn" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="detailModalBody">
+      <!-- Populated dynamically via JS -->
     </div>
   </div>
 </div>
